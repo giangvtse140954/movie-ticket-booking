@@ -14,27 +14,27 @@ export default class Header extends Component {
         />
         <ul className='header__nav'>
           <li>
-            <Link>Lịch chiếu</Link>
+            <Link to='/'>Lịch chiếu</Link>
           </li>
           <li>
-            <Link>Cụm rạp</Link>
+            <Link to='/'>Cụm rạp</Link>
           </li>
           <li>
-            <Link>Tin tức</Link>
+            <Link to='/'>Tin tức</Link>
           </li>
           <li>
-            <Link>Ứng dụng</Link>
+            <Link to='/'>Ứng dụng</Link>
           </li>
         </ul>
         <div className='header__private'>
           <div className='header__item'>
-            <Link>
+            <Link to='/'>
               <Avatar icon={<UserOutlined />} />
               <span className='header__text'>Đăng nhập</span>
             </Link>
           </div>
           <div className='header__item'>
-            <Link>
+            <Link to='/'>
               <Avatar icon={<AimOutlined />} />
               <span className='header__text'>Hồ Chí Minh</span>
               <DownOutlined />

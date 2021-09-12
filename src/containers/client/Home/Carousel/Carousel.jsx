@@ -1,44 +1,78 @@
 import React, { Component } from 'react';
-import { Image } from 'antd';
 import './Carousel.scss';
 import Slider from 'react-slick';
 import movieApi from '../../../../apis/movieApi';
+import { getYoutubeThumbnail } from '../../../../utils/getImgFromLink';
+import { PlayCircleOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 
 export default class Carousel extends Component {
-  state = {
-    movies: [],
-  };
-
-  render() {
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 5,
-      slidesToScroll: 1,
-      // autoplay: true,
-      // autoplaySpeed: 2000,
-      // cssEase: 'linear',
+  constructor(props) {
+    super(props);
+    this.state = {
+      movies: [],
+      isModalVisible: false,
+      trailer: '',
     };
+    this.myRef = React.createRef();
+  }
+
+  showTrailer = (trailer) => {
+    this.setState({ isModalVisible: true, trailer });
+  };
+  handleCancel = () => {
+    this.setState({ trailer: '', isModalVisible: false });
+    this.myRef.current.src = this.state.trailer;
+  };
+  render() {
     return (
-      <Slider {...settings}>
-        {this.state.movies.map((movie) => {
-          return (
-            <div>
-              <div className='carousel__item'>
-                {/* <Image src={movie.hinhAnh} preview={false} height={'100%'} /> */}
-                <img src={movie.hinhAnh} alt='hinhAnh' />
+      <div className='slider'>
+        <Modal
+          visible={this.state.isModalVisible}
+          footer={null}
+          maskClosable={true}
+          onCancel={this.handleCancel}
+          width={1000}
+          bodyStyle={{ height: '500px' }}
+        >
+          <iframe
+            ref={this.myRef}
+            width='100%'
+            height='100%'
+            src={this.state.trailer}
+            title='YouTube video player'
+            frameborder='0'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+            allowfullscreen
+          ></iframe>
+        </Modal>
+        <Slider>
+          {this.state.movies.map((movie) => {
+            let img = getYoutubeThumbnail(movie.trailer);
+            return (
+              <div key={movie.maPhim} className='carousel__item'>
+                <img src={img} alt='img' />
+                <PlayCircleOutlined
+                  className='carousel__play'
+                  style={{ fontSize: '5rem' }}
+                  onClick={() => {
+                    this.showTrailer(movie.trailer);
+                  }}
+                />
               </div>
-            </div>
-          );
-        })}
-      </Slider>
+            );
+          })}
+        </Slider>
+      </div>
     );
   }
   async componentDidMount() {
-    const { data } = await movieApi.fetchAllMovieApi();
+    try {
+      const { data } = await movieApi.fetchAllMovieApi();
 
-    this.setState({ movies: data });
-    console.log(data[1]);
+      this.setState({ movies: data });
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
