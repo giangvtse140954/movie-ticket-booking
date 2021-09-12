@@ -4,9 +4,11 @@ import { clientRoutes } from './routes';
 import ClientLayout from './layouts/ClientLayout';
 class App extends Component {
   renderLayout(routes, Layout) {
-    return routes.map((route) => {
+    return routes.map((route, idx) => {
       const { path, component, exact } = route;
-      return <Layout path={path} component={component} exact={exact} />;
+      return (
+        <Layout key={idx} path={path} component={component} exact={exact} />
+      );
     });
   }
   render() {
