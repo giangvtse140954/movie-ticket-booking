@@ -41,9 +41,7 @@ export default class Carousel extends Component {
             height='100%'
             src={this.state.trailer}
             title='YouTube video player'
-            frameborder='0'
             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-            allowfullscreen
           ></iframe>
         </Modal>
         <Slider>
@@ -68,9 +66,8 @@ export default class Carousel extends Component {
   }
   async componentDidMount() {
     try {
-      const { data } = await movieApi.fetchAllMovieApi();
-
-      this.setState({ movies: data });
+      const { data } = await movieApi.fetchMovieWithPaginationApi(1, 4);
+      this.setState({ movies: data.items });
     } catch (err) {
       console.log(err);
     }
