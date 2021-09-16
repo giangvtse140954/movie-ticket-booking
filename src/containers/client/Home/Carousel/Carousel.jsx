@@ -3,8 +3,8 @@ import './Carousel.scss';
 import Slider from 'react-slick';
 import movieApi from '../../../../apis/movieApi';
 import { getYoutubeThumbnail } from '../../../../utils/getImgFromLink';
-import { PlayCircleOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
+import PlayButton from '../../../../components/PlayButton/PlayButton';
 
 export default class Carousel extends Component {
   constructor(props) {
@@ -50,9 +50,9 @@ export default class Carousel extends Component {
             return (
               <div key={movie.maPhim} className='carousel__item'>
                 <img src={img} alt='img' />
-                <PlayCircleOutlined
+                <PlayButton
                   className='carousel__play'
-                  style={{ fontSize: '5rem' }}
+                  size='5rem'
                   onClick={() => {
                     this.showTrailer(movie.trailer);
                   }}
