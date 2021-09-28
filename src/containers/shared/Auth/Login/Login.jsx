@@ -73,7 +73,7 @@ const mapDisptchToProps = (dispatch) => ({
   login: (user) => dispatch(actLogin(user)),
 });
 const mapStateToProps = (state) => ({
-  currentUser: state.loginReducer.currentUser,
+  currentUser: state.authReducer.currentUser,
 });
 
 export default connect(mapStateToProps, mapDisptchToProps)(Login);

@@ -1,4 +1,4 @@
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS } from './types';
+import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from './types';
 
 const initialState = {
   currentUser: null,
@@ -6,7 +6,7 @@ const initialState = {
   error: null,
 };
 
-const loginReducer = (state = initialState, { type, payload }) => {
+const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case LOGIN_REQUEST:
       return { ...state, loading: true, error: null };
@@ -14,9 +14,11 @@ const loginReducer = (state = initialState, { type, payload }) => {
       return { ...state, currentUser: payload, loading: false };
     case LOGIN_FAIL:
       return { ...state, loading: false, error: payload };
+    case LOGOUT:
+      return { ...state, loading: false, error: null, currentUser: null };
     default:
       return state;
   }
 };
 
-export default loginReducer;
+export default authReducer;

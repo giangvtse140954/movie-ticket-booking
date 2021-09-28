@@ -1,6 +1,6 @@
 import userApi from '../../../../apis/userApi';
 import history from '../../../../utils/history';
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS } from './types';
+import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from './types';
 
 const actLoginRequest = () => ({
   type: LOGIN_REQUEST,
@@ -24,3 +24,4 @@ export const actLogin = (user) => async (dispatch) => {
     dispatch(actLoginFail('Unable to login!'));
   }
 };
+export const actLogout = () => ({ type: LOGOUT });

@@ -4,6 +4,7 @@ import { clientRoutes } from './routes';
 import ClientLayout from './layouts/ClientLayout';
 import Login from './containers/shared/Auth/Login/Login';
 import history from './utils/history';
+import PageNotFound from './containers/shared/PageNotFound/PageNotFound';
 class App extends Component {
   renderLayout(routes, Layout) {
     return routes.map((route, idx) => {
@@ -25,7 +26,8 @@ class App extends Component {
         <Router history={history}>
           <Switch>
             {this.renderLayout(clientRoutes, ClientLayout)}
-            <Route path='/login' component={Login} />
+            <Route path='/' component={Login} />
+            <Route path='*' component={PageNotFound} />
           </Switch>
         </Router>
       </div>

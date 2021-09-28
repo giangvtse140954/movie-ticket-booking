@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './Header.scss';
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar } from 'antd';
+import {
+  UserOutlined,
+  UserAddOutlined,
+  CaretDownOutlined,
+} from '@ant-design/icons';
+import { Avatar, Dropdown, Menu } from 'antd';
 import history from '../../utils/history';
+import { connect } from 'react-redux';
+import { actLogout } from '../../containers/shared/Auth/module/actions';
 
 class Header extends Component {
+  onClick = ({ key }) => {
+    if (key === '2') this.props.logout();
+  };
+  menu = (
+    <Menu onClick={this.onClick}>
+      {this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
+        <Menu.Item key='1'>Chức năng quan lý</Menu.Item>
+      ) : null}
+      <Menu.Item key='2'>Đăng xuất</Menu.Item>
+    </Menu>
+  );
+
   render() {
     return (
       <div className='header'>
@@ -31,16 +49,51 @@ class Header extends Component {
           </li>
         </ul>
         <div className='header__private'>
+          {this.props.currentUser ? null : (
+            <div className='header__item'>
+              <Link to='/signup'>
+                <Avatar icon={<UserAddOutlined />} />
+                <span className='header__text'>Đăng ký</span>
+              </Link>
+            </div>
+          )}
           <div className='header__item'>
-            <Link to='/'>
-              <Avatar icon={<UserOutlined />} />
-              <span className='header__text'>Đăng nhập</span>
-            </Link>
+            {this.props.currentUser ? (
+              <Dropdown
+                // to='/'
+                // onClick={() => {
+                //   this.props.logout();
+                // }}
+                overlay={this.menu}
+              >
+                <a
+                  className='ant-dropdown-link'
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Avatar icon={<UserOutlined />} />
+                  <span className='header__text'>
+                    {' '}
+                    Chào!, {this.props.currentUser.hoTen}
+                  </span>
+                  <CaretDownOutlined />
+                </a>
+              </Dropdown>
+            ) : (
+              <Link to='/login'>
+                <Avatar icon={<UserOutlined />} />
+                <span className='header__text'>Đăng nhập</span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
     );
   }
 }
-
-export default withRouter(Header);
+const mapStateToProps = (state) => ({
+  currentUser: state.authReducer.currentUser,
+});
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(actLogout()),
+});
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

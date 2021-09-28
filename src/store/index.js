@@ -1,9 +1,30 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
-import loginReducer from '../containers/shared/Auth/module/reducer';
+import authReducer from '../containers/shared/Auth/module/reducer';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const rootReducer = combineReducers({ loginReducer });
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const rootReducer = combineReducers({ authReducer });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+// const store = createStore(
+//   rootReducer,
+//   /* preloadedState, */ composeEnhancers(applyMiddleware(thunk))
+// );
+// // const store = createStore(rootReducer, applyMiddleware(thunk));
 
-export default store;
+// export default store;
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['authReducer'],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = createStore(
+  persistedReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
+const persistor = persistStore(store);
+export { store, persistor };
