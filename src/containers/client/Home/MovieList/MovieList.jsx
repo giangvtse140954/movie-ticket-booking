@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs } from 'antd';
+import { Spin, Tabs } from 'antd';
 import './MovieList.scss';
 import { Row, Col } from 'antd';
 import movieApi from '../../../../apis/movieApi';
@@ -37,15 +37,15 @@ export default class MovieList extends Component {
       }
     }
   };
-  renderTemplate(movies, idx) {
+  renderTemplate = (movies, idx) => {
     return (
-      <div className='movielist__collection'>
+      <div className='movielist__collection' key={idx}>
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} key={idx}>
           {movies.map((movie) => (
             <Col className='gutter-row' span={6} key={movie.maPhim}>
               <div className='movielist__item'>
                 <div className='movielist__img'>
-                  <img src={movie.hinhAnh} alt='' />
+                  <img src={movie.hinhAnh} alt='hinhAnh' />
                   <div className='movielist__rating'></div>
                   <div className='movielist__overlay'>
                     <PlayButton className='movielist__button' size='3em' />
@@ -66,23 +66,42 @@ export default class MovieList extends Component {
         </Row>
       </div>
     );
-  }
+  };
   renderMovieItem = (movies) => {
     const fragments = _.chunk(movies, 8);
-    const result = fragments.map((fragment) => this.renderTemplate(fragment));
+    const result = fragments.map((fragment, idx) =>
+      this.renderTemplate(fragment, idx)
+    );
     return result;
   };
+
   render() {
+    const settings = {
+      dots: true,
+      // fade: true,
+      infinite: true,
+      // speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+    };
+    if (!this.state.recentMovies)
+      return (
+        <div className='spinner'>
+          <Spin />
+        </div>
+      );
     return (
       <Tabs
         defaultActiveKey='1'
         onChange={this.callback}
         centered
         className='movielist'
+        animated={{ inkBar: true, tabPane: true }}
       >
         <Tabs.TabPane tab='Đang chiếu' key='1'>
           <div>
-            <Slider>
+            <Slider {...settings}>
               {this.state.recentMovies
                 ? this.renderMovieItem(this.state.recentMovies)
                 : null}
@@ -90,11 +109,17 @@ export default class MovieList extends Component {
           </div>
         </Tabs.TabPane>
         <Tabs.TabPane tab='Sắp chiếu' key='2'>
-          <Slider>
-            {this.state.upcomingMovies
-              ? this.renderMovieItem(this.state.upcomingMovies)
-              : null}
-          </Slider>
+          {this.state.upcomingMovies ? (
+            <Slider {...settings}>
+              {this.state.upcomingMovies
+                ? this.renderMovieItem(this.state.upcomingMovies)
+                : null}
+            </Slider>
+          ) : (
+            <div className='spinner'>
+              <Spin />
+            </div>
+          )}
         </Tabs.TabPane>
       </Tabs>
     );

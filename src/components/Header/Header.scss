@@ -10,6 +10,10 @@
   img {
     height: 80%;
     margin-left: 20px;
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
   }
   &__nav {
     list-style: none;
@@ -36,7 +40,6 @@
     margin-right: 10px;
     &:first-child {
       padding-right: 10px;
-      border-right: 1px solid #c7c7c7;
     }
   }
   &__text {

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './Header.scss';
-import { UserOutlined, AimOutlined, DownOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
+import history from '../../utils/history';
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     return (
       <div className='header'>
         <img
           src='https://tix.vn/app/assets/img/icons/web-logo.png'
           alt='logo'
+          onClick={() => {
+            history.push('/');
+          }}
         />
         <ul className='header__nav'>
           <li>
@@ -33,15 +37,10 @@ export default class Header extends Component {
               <span className='header__text'>Đăng nhập</span>
             </Link>
           </div>
-          <div className='header__item'>
-            <Link to='/'>
-              <Avatar icon={<AimOutlined />} />
-              <span className='header__text'>Hồ Chí Minh</span>
-              <DownOutlined />
-            </Link>
-          </div>
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(Header);
