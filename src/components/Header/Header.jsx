@@ -17,7 +17,8 @@ class Header extends Component {
   };
   menu = (
     <Menu onClick={this.onClick}>
-      {this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
+      {this.props.currentUser &&
+      this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
         <Menu.Item key='1'>Chức năng quan lý</Menu.Item>
       ) : null}
       <Menu.Item key='2'>Đăng xuất</Menu.Item>

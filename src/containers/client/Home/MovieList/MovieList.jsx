@@ -6,6 +6,7 @@ import movieApi from '../../../../apis/movieApi';
 import PlayButton from '../../../../components/PlayButton/PlayButton';
 import Slider from 'react-slick';
 import _ from 'lodash';
+import history from '../../../../utils/history';
 
 export default class MovieList extends Component {
   state = {
@@ -47,9 +48,19 @@ export default class MovieList extends Component {
                 <div className='movielist__img'>
                   <img src={movie.hinhAnh} alt='hinhAnh' />
                   <div className='movielist__rating'></div>
-                  <div className='movielist__overlay'>
-                    <PlayButton className='movielist__button' size='3em' />
-                  </div>
+                  <div
+                    className='movielist__overlay'
+                    onClick={() => {
+                      history.push(`/movie-detail/${movie.maPhim}`);
+                    }}
+                  ></div>
+                  <PlayButton
+                    className='movielist__button'
+                    size='3em'
+                    onClick={() => {
+                      console.log('nho');
+                    }}
+                  />
                 </div>
                 <div className='movielist__content'>
                   <h6>

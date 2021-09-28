@@ -9,7 +9,7 @@ export const clientRoutes = [
     isPrivate: false,
   },
   {
-    path: '/movie-detail',
+    path: '/movie-detail/:movieId',
     component: MovieDetail,
     exact: false,
     isPrivate: false,

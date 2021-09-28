@@ -20,16 +20,20 @@
     background-color: rgba(0, 0, 0, 0);
     transition: all 0.3s;
     border-radius: 5px;
-    .movielist__button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
   }
+  &__button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+
   &__item {
+    cursor: pointer;
     height: 100%;
-    &:hover .movielist__overlay {
+    &:hover .movielist__overlay,
+    &:hover .movielist__button {
       opacity: 1;
       background: linear-gradient(
         to bottom,

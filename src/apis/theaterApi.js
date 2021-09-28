@@ -5,18 +5,13 @@ const theaterApi = {
   fetchTheaterOnMovieApi(movieId) {
     return callApi(`QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${movieId}`);
   },
-  // fetchCinemaSystemApi() {
-  //   return callApi(`QuanLyRap/LayThongTinHeThongRap`);
-  // },
-  // fetchCinemaApi(cinameSystem) {
-  //   return callApi(
-  //     `QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${cinameSystem}`
-  //   );
-  // },
   fetchCinemaApi() {
     return callApi(
       `QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=${GROUP_ID}`
     );
+  },
+  fetchMovieByApi(movieId) {
+    return callApi(`QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${movieId}`);
   },
 };
 export default theaterApi;

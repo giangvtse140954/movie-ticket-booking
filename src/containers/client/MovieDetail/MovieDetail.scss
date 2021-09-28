@@ -1,0 +1,35 @@
+.info {
+  padding: 60px 0 0;
+  &__container {
+    background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/space-galaxy-background-sololos.jpg');
+    background-position: center;
+    background-size: cover;
+    h2 {
+      color: #fff;
+      font-weight: 300;
+    }
+  }
+  &__poster {
+    padding: 10px;
+    background-color: #fff;
+    img {
+      width: 100%;
+    }
+  }
+  &__detail {
+    color: #fff;
+    padding: 0 20px;
+  }
+  &__button {
+    background-color: #00a300;
+    border: none;
+    margin-right: 10px;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    padding: 3px 10px;
+    filter: none;
+    &:hover {
+      filter: drop-shadow(10px 14px 4px rgba(0, 0, 0, 0.25));
+    }
+  }
+}
