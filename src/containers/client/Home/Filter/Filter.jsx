@@ -92,7 +92,6 @@ export default class Filter extends Component {
         'maLichChieu',
         showtimeId,
       ]);
-      console.log(selectedShowtime);
       this.setState({ selectedShowtime });
     }
   };
