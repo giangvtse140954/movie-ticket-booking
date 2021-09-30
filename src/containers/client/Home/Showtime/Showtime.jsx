@@ -80,7 +80,9 @@ export default class Showtime extends Component {
                           {item.diaChi}
                         </span>
                       </div>
-                      {/* <Link/> */}
+                      <Link to={`/theater-detail/${item.maCumRap}`}>
+                        [chi tiết]
+                      </Link>
                     </Col>
                   </Row>
                 );
@@ -93,17 +95,30 @@ export default class Showtime extends Component {
                 return (
                   <Row key={movie.maPhim} className='showtime__movie'>
                     <Col span={4}>
-                      <img src={movie.hinhAnh} alt='hhinhAnh' />
+                      <Link to={`/movie-detail/${movie.maPhim}`}>
+                        <img src={movie.hinhAnh} alt='hhinhAnh' />
+                      </Link>
                     </Col>
                     <Col span={20}>
-                      <span style={{ fontSize: '14px', fontWeight: '700' }}>
-                        {movie.tenPhim}
-                      </span>
+                      <Link to={`/movie-detail/${movie.maPhim}`}>
+                        <span
+                          style={{
+                            fontSize: '14px',
+                            fontWeight: '700',
+                            color: '#333',
+                          }}
+                        >
+                          {movie.tenPhim}
+                        </span>
+                      </Link>
                       <br />
                       {movie.lstLichChieuTheoPhim.map((showtime, i) => {
                         const time = new Date(showtime.ngayChieuGioChieu);
                         const current = new Date();
-                        if (time >= current) {
+                        const tomorrow = new Date(current);
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        tomorrow.setHours(0, 0, 0, 0);
+                        if (time >= current && time <= tomorrow) {
                           check = true;
                           return (
                             <Link

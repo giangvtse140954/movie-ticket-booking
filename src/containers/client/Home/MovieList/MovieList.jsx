@@ -7,12 +7,19 @@ import PlayButton from '../../../../components/PlayButton/PlayButton';
 import Slider from 'react-slick';
 import _ from 'lodash';
 import history from '../../../../utils/history';
+import TrailerModal from '../../../../components/TrailerModal/TrailerModal';
 
 export default class MovieList extends Component {
-  state = {
-    recentMovies: null,
-    upcomingMovies: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      recentMovies: null,
+      upcomingMovies: null,
+      trailer: '',
+    };
+
+    this.myRef = React.createRef();
+  }
 
   callback = async () => {
     const { recentMovies, upcomingMovies } = this.state;
@@ -38,9 +45,23 @@ export default class MovieList extends Component {
       }
     }
   };
+
+  showTrailer = (trailer) => {
+    this.setState({ isModalVisible: true, trailer });
+  };
+  handleCancel = () => {
+    this.myRef.current.src = '';
+    this.setState({ trailer: '', isModalVisible: false });
+  };
   renderTemplate = (movies, idx) => {
     return (
       <div className='movielist__collection' key={idx}>
+        <TrailerModal
+          isModalVisible={this.state.isModalVisible}
+          handleCancel={this.handleCancel}
+          myRef={this.myRef}
+          src={this.state.trailer}
+        />
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} key={idx}>
           {movies.map((movie) => (
             <Col className='gutter-row' span={6} key={movie.maPhim}>
@@ -58,7 +79,7 @@ export default class MovieList extends Component {
                     className='movielist__button'
                     size='3em'
                     onClick={() => {
-                      console.log('nho');
+                      this.showTrailer(movie.trailer);
                     }}
                   />
                 </div>

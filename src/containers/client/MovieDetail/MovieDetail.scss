@@ -1,24 +1,40 @@
 .info {
-  padding: 60px 0 0;
-  &__container {
-    background-image: url('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/space-galaxy-background-sololos.jpg');
+  padding: 120px 200px;
+  position: relative;
+  &__background {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    background: linear-gradient(to top, #fff, transparent 100%);
+  }
+  &__blur {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 90px);
+    padding: 50px 0;
     background-position: center;
     background-size: cover;
+    filter: blur(8px);
+  }
+  &__container {
     h2 {
       color: #fff;
       font-weight: 300;
     }
   }
   &__poster {
-    padding: 10px;
-    background-color: #fff;
     img {
+      border-radius: 5px;
       width: 100%;
     }
   }
   &__detail {
     color: #fff;
-    padding: 0 20px;
+    padding: 0 50px;
   }
   &__button {
     background-color: #00a300;
@@ -30,6 +46,49 @@
     filter: none;
     &:hover {
       filter: drop-shadow(10px 14px 4px rgba(0, 0, 0, 0.25));
+    }
+  }
+}
+.time {
+  height: 500px;
+  padding: 0 200px;
+  &__item {
+    opacity: 0.7;
+    padding: 20px;
+    img {
+      width: 50px;
+      margin-right: 10px;
+    }
+    span {
+      font-weight: 600;
+    }
+    &.active {
+      opacity: 1;
+    }
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  &__cinema {
+    padding: 10px 0;
+    img {
+      width: 80%;
+    }
+  }
+  &__showtime {
+    font-size: 2rem;
+    margin-left: 15px;
+    color: green;
+  }
+  &__content {
+    span:first-child {
+      font-size: 1em;
+      font-weight: 700;
+    }
+    span:nth-child(3) {
+      font-size: 0.8em;
+      color: gray;
     }
   }
 }

@@ -13,5 +13,10 @@ const theaterApi = {
   fetchMovieByApi(movieId) {
     return callApi(`QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${movieId}`);
   },
+  fetchCinemaBySystemApi(systemId) {
+    return callApi(
+      `QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${systemId}`
+    );
+  },
 };
 export default theaterApi;

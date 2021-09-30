@@ -3,8 +3,9 @@ import './Carousel.scss';
 import Slider from 'react-slick';
 import movieApi from '../../../../apis/movieApi';
 import { getYoutubeThumbnail } from '../../../../utils/getImgFromLink';
-import { Modal } from 'antd';
 import PlayButton from '../../../../components/PlayButton/PlayButton';
+import { Link } from 'react-router-dom';
+import TrailerModal from '../../../../components/TrailerModal/TrailerModal';
 
 export default class Carousel extends Component {
   constructor(props) {
@@ -21,35 +22,26 @@ export default class Carousel extends Component {
     this.setState({ isModalVisible: true, trailer });
   };
   handleCancel = () => {
+    this.myRef.current.src = '';
     this.setState({ trailer: '', isModalVisible: false });
-    this.myRef.current.src = this.state.trailer;
   };
   render() {
     return (
       <div className='slider'>
-        <Modal
-          visible={this.state.isModalVisible}
-          footer={null}
-          maskClosable={true}
-          onCancel={this.handleCancel}
-          width={1000}
-          bodyStyle={{ height: '500px' }}
-        >
-          <iframe
-            ref={this.myRef}
-            width='100%'
-            height='100%'
-            src={this.state.trailer}
-            title='YouTube video player'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          ></iframe>
-        </Modal>
+        <TrailerModal
+          isModalVisible={this.state.isModalVisible}
+          handleCancel={this.handleCancel}
+          myRef={this.myRef}
+          src={this.state.trailer}
+        />
         <Slider>
           {this.state.movies.map((movie) => {
             let img = getYoutubeThumbnail(movie.trailer);
             return (
               <div key={movie.maPhim} className='carousel__item'>
-                <img src={img} alt='img' />
+                <Link to={`/movie-detail/${movie.maPhim}`}>
+                  <img src={img} alt='img' />
+                </Link>
                 <PlayButton
                   className='carousel__play'
                   size='5rem'

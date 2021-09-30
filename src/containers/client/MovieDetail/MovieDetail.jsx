@@ -2,24 +2,72 @@ import { Col, Row, Spin } from 'antd';
 import React, { Component } from 'react';
 import theaterApi from '../../../apis/theaterApi';
 import './MovieDetail.scss';
+import { Tabs } from 'antd';
+import moment from 'moment';
+import _ from 'lodash';
+import { Link } from 'react-router-dom';
+import { getYoutubeThumbnail } from '../../../utils/getImgFromLink';
+const { TabPane } = Tabs;
+
 export default class MovieDetail extends Component {
   state = {
     movie: null,
+    selectedSystem: null,
+    cinema: null,
   };
+  getThisWeekDates() {
+    var weekDates = [];
+    for (var i = 1; i <= 7; i++) {
+      weekDates.push(moment().day(i));
+    }
+
+    return weekDates;
+  }
   render() {
-    const { movie } = this.state;
+    const { movie, selectedSystem } = this.state;
+    const days = {
+      Monday: 'Thứ Hai',
+      Tuesday: 'Thứ Ba',
+      Wednesday: 'Thứ Tư',
+      Thursday: 'Thứ Năm',
+      Friday: 'Thứ Sáu',
+      Saturday: 'Thứ Bảy',
+      Sunday: 'Chủ Nhật',
+    };
     let strDate = '';
+    let dates = null;
+    let current = moment();
+    let key = moment();
+
     if (movie) {
+      // console.log(movie);
       const date = new Date(movie.ngayKhoiChieu);
       strDate =
         date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+
+      // value for render showtime
+      dates = this.getThisWeekDates();
+      for (let i = 0; i < dates.length; i++) {
+        const date = dates[i];
+        if (date >= current) {
+          key = date.format();
+          break;
+        }
+      }
     }
     return (
       <>
         {movie ? (
           <div className='info'>
+            <div
+              className='info__blur'
+              style={{
+                backgroundImage: `url(${getYoutubeThumbnail(movie.trailer)})`,
+              }}
+            ></div>
+            <div className='info__background'></div>
             <div className='info__container'>
-              <h2>{movie.tenPhim}</h2>
+              <h2 style={{ marginLeft: '20px' }}>{movie.tenPhim}</h2>
               <Row>
                 <Col span={6}>
                   <div className='info__poster'>
@@ -55,6 +103,154 @@ export default class MovieDetail extends Component {
         ) : (
           <Spin />
         )}
+        {movie ? (
+          <div className='time'>
+            <Row>
+              <Col span={6}>
+                <div className='time__system'>
+                  {movie.heThongRapChieu.map((system) => {
+                    return (
+                      <div
+                        className={`time__item ${
+                          selectedSystem.maHeThongRap === system.maHeThongRap
+                            ? 'active'
+                            : ''
+                        }`}
+                        key={system.maHeThongRap}
+                        onClick={async () => {
+                          const { data } =
+                            await theaterApi.fetchCinemaBySystemApi(
+                              system.maHeThongRap
+                            );
+                          this.setState({
+                            selectedSystem: system,
+                            cinema: data,
+                          });
+                        }}
+                      >
+                        <img src={system.logo} alt='loogoo' />
+                        <span>{system.tenHeThongRap}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Col>
+              <Col span={18}>
+                <div className='time__week'>
+                  {dates ? (
+                    <Tabs
+                      defaultActiveKey={key}
+                      centered
+                      onTabClick={this.onTabClick}
+                    >
+                      {dates.map((date) => {
+                        const flag = !(date >= current);
+                        return (
+                          <TabPane
+                            tab={
+                              <div style={{ textAlign: 'center' }}>
+                                {days[date.format('dddd')]}
+                                <br />
+                                {date.format('D')}
+                              </div>
+                            }
+                            key={date.format()}
+                            disabled={flag}
+                          >
+                            {selectedSystem &&
+                            selectedSystem.cumRapChieu.length > 0
+                              ? selectedSystem.cumRapChieu.map((cinema) => {
+                                  const length = cinema.lichChieuPhim.length;
+                                  let check = false;
+                                  return (
+                                    <div
+                                      className='time__cinema'
+                                      key={cinema.maCumRap}
+                                    >
+                                      <Row>
+                                        <Col
+                                          span={4}
+                                          style={{ textAlign: 'center' }}
+                                        >
+                                          <img
+                                            src={
+                                              cinema.hinhAnh
+                                                ? cinema.hinhAnh
+                                                : 'https://i2.wp.com/www.dasym.com/wp-content/uploads/2017/07/Cinema-Image-by-Alexandre-Chassignon-on-Flickr.jpg?fit=2304%2C1728&ssl=1'
+                                            }
+                                            alt='cinemaimage'
+                                          />
+                                        </Col>
+                                        <Col
+                                          span={20}
+                                          className='time__content'
+                                        >
+                                          <span>{cinema.tenCumRap}</span>
+                                          <br />
+                                          <span>
+                                            {
+                                              _.find(this.state.cinema, [
+                                                'maCumRap',
+                                                cinema.maCumRap,
+                                              ]).diaChi
+                                            }
+                                          </span>
+                                          <br />
+                                          {cinema.lichChieuPhim.map(
+                                            (item, i) => {
+                                              const t = new Date(
+                                                item.ngayChieuGioChieu
+                                              );
+                                              const c = new Date(date.format());
+                                              const tomorrow = new Date(c);
+                                              tomorrow.setDate(
+                                                tomorrow.getDate() + 1
+                                              );
+                                              tomorrow.setHours(0, 0, 0, 0);
+
+                                              if (t >= c && t <= tomorrow) {
+                                                check = true;
+                                                return (
+                                                  <Link
+                                                    to='/cinema'
+                                                    className='time__showtime'
+                                                    key={item.maLichChieu}
+                                                  >
+                                                    {t.getHours()}:
+                                                    {t.getMinutes()}{' '}
+                                                  </Link>
+                                                );
+                                              }
+                                              if (length - 1 === i && !check) {
+                                                return (
+                                                  <p key='1'>
+                                                    Hiện đã hết suất chiếu
+                                                  </p>
+                                                );
+                                              }
+                                              return null;
+                                            }
+                                          )}
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  );
+                                })
+                              : 'Không có suất chiếu nào'}
+                          </TabPane>
+                        );
+                      })}
+                    </Tabs>
+                  ) : (
+                    'Hiện không có suất chiếu nào'
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </div>
+        ) : (
+          <Spin />
+        )}
       </>
     );
   }
@@ -63,8 +259,16 @@ export default class MovieDetail extends Component {
       const { data } = await theaterApi.fetchMovieByApi(
         this.props.match.params.movieId
       );
-      console.log(data);
-      this.setState({ movie: data });
+      let selectedSystem = null;
+      let cinema = null;
+      if (data.heThongRapChieu && data.heThongRapChieu.length > 0) {
+        selectedSystem = data.heThongRapChieu[0];
+        const result = await theaterApi.fetchCinemaBySystemApi(
+          selectedSystem.maHeThongRap
+        );
+        cinema = result.data;
+      }
+      this.setState({ movie: data, selectedSystem, cinema });
     } catch (err) {
       console.log(err);
     }
