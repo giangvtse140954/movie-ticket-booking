@@ -15,14 +15,14 @@ export default class MovieDetail extends Component {
     selectedSystem: null,
     cinema: null,
   };
-  getThisWeekDates() {
-    var weekDates = [];
-    for (var i = 1; i <= 7; i++) {
-      weekDates.push(moment().day(i));
-    }
+  // getThisWeekDates() {
+  //   var weekDates = [];
+  //   for (var i = 1; i <= 7; i++) {
+  //     weekDates.push(moment().day(i));
+  //   }
 
-    return weekDates;
-  }
+  //   return weekDates;
+  // }
   render() {
     const { movie, selectedSystem } = this.state;
     const days = {
@@ -36,23 +36,21 @@ export default class MovieDetail extends Component {
     };
     let strDate = '';
     let dates = null;
-    let current = moment();
-    let key = moment();
 
     if (movie) {
-      // console.log(movie);
-      const date = new Date(movie.ngayKhoiChieu);
+      const dd = new Date(movie.ngayKhoiChieu);
       strDate =
-        date.getDay() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        dd.getDay() + '/' + (dd.getMonth() + 1) + '/' + dd.getFullYear();
 
       // value for render showtime
-      dates = this.getThisWeekDates();
-      for (let i = 0; i < dates.length; i++) {
-        const date = dates[i];
-        if (date >= current) {
-          key = date.format();
-          break;
+      const toDay = moment().subtract({ days: 1 });
+      dates = [];
+      for (let i = 0; i < 7; i++) {
+        let flag = toDay.add({ days: 1 }).format();
+        if (i !== 0) {
+          flag = toDay.set({ h: 0, m: 0, s: 0 }).format();
         }
+        dates.push(moment(flag));
       }
     }
     return (
@@ -139,12 +137,11 @@ export default class MovieDetail extends Component {
                 <div className='time__week'>
                   {dates ? (
                     <Tabs
-                      defaultActiveKey={key}
+                      defaultActiveKey='1'
                       centered
                       onTabClick={this.onTabClick}
                     >
-                      {dates.map((date) => {
-                        const flag = !(date >= current);
+                      {dates.map((date, i) => {
                         return (
                           <TabPane
                             tab={
@@ -154,8 +151,7 @@ export default class MovieDetail extends Component {
                                 {date.format('D')}
                               </div>
                             }
-                            key={date.format()}
-                            disabled={flag}
+                            key={i + 1}
                           >
                             {selectedSystem &&
                             selectedSystem.cumRapChieu.length > 0

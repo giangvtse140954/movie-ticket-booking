@@ -3,8 +3,10 @@ import { Row, Col, Spin } from 'antd';
 import './Showtime.scss';
 import theaterApi from '../../../../apis/theaterApi';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { actSelectCinema } from '../module/actions';
 
-export default class Showtime extends Component {
+class Showtime extends Component {
   state = {
     cinemaSystems: null,
     selectedCinemaSystem: null,
@@ -80,7 +82,13 @@ export default class Showtime extends Component {
                           {item.diaChi}
                         </span>
                       </div>
-                      <Link to={`/theater-detail/${item.maCumRap}`}>
+                      <Link
+                        to={`/theater-detail/${item.maCumRap}`}
+                        onClick={() => {
+                          console.log(item);
+                          this.props.selectCinema(item);
+                        }}
+                      >
                         [chi tiết]
                       </Link>
                     </Col>
@@ -171,3 +179,9 @@ export default class Showtime extends Component {
     });
   }
 }
+
+// const mapDispatchToProps = (dispatch) => ({
+//   selectCinema: (cinema) => dispatch(actSelectCinema(cinema)),
+// });
+// export default connect(null, mapDispatchToProps)(Showtime);
+export default connect(null, { selectCinema: actSelectCinema })(Showtime);
