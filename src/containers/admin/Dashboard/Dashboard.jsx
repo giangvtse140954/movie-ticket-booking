@@ -1,3 +1,4 @@
+
 import { Button, Space, Table } from 'antd';
 import './Dashboard.scss';
 
@@ -6,6 +7,7 @@ import { Link } from 'react-router-dom';
 import movieApi from '../../../apis/movieApi';
 import { connect } from 'react-redux';
 import Showtime from './Showtime/Showtime';
+
 
 class Dashboard extends Component {
   state = {
@@ -29,47 +31,47 @@ class Dashboard extends Component {
   render() {
     const columns = [
       {
-        title: 'Mã phim',
-        dataIndex: 'maPhim',
-        key: 'id',
+        title: "Mã phim",
+        dataIndex: "maPhim",
+        key: "id",
         render: (text) => <a>{text}</a>,
       },
       {
-        title: 'Tên phim',
-        dataIndex: 'tenPhim',
-        key: 'name',
+        title: "Tên phim",
+        dataIndex: "tenPhim",
+        key: "name",
       },
       {
-        title: 'Hình ảnh',
-        dataIndex: 'hinhAnh',
-        key: 'image',
+        title: "Hình ảnh",
+        dataIndex: "hinhAnh",
+        key: "image",
         render: (text) => (
-          <img src={text} alt='anhhh' style={{ width: '50px' }} />
+          <img src={text} alt="anhhh" style={{ width: "50px" }} />
         ),
       },
       {
-        title: 'Mô tả',
-        dataIndex: 'moTa',
-        key: 'description',
-        render: (text) => <div className='dashboard__table'>{text}</div>,
+        title: "Mô tả",
+        dataIndex: "moTa",
+        key: "description",
+        render: (text) => <div className="dashboard__table">{text}</div>,
       },
       {
-        title: 'Mã nhóm',
-        dataIndex: 'maNhom',
-        key: 'groupId',
+        title: "Mã nhóm",
+        dataIndex: "maNhom",
+        key: "groupId",
       },
       {
-        title: 'Ngày khởi chiếu',
-        dataIndex: 'ngayKhoiChieu',
-        key: 'date',
+        title: "Ngày khởi chiếu",
+        dataIndex: "ngayKhoiChieu",
+        key: "date",
         render: (text) =>
           `${new Date(text).getDate()}/${
             new Date(text).getMonth() + 1
           }/${new Date(text).getFullYear()}`,
       },
       {
-        title: 'Action',
-        key: 'action',
+        title: "Action",
+        key: "action",
         render: (text, record) => (
           <Space size='middle'>
             <Button type='primary' onClick={() => this.onModalClick(record)}>
@@ -79,6 +81,7 @@ class Dashboard extends Component {
               Sửa
             </Button>
             <Button
+
               onClick={() => {
                 this.onDeleteClick(record.maPhim);
               }}
