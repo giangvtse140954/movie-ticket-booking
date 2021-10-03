@@ -28,6 +28,9 @@ const movieApi = {
       token
     );
   },
+  fetchMovieById(movieId) {
+    return callApi(`QuanLyPhim/LayThongTinPhim?MaPhim=${movieId}`);
+  },
 };
 
 export default movieApi;

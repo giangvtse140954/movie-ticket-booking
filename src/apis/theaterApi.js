@@ -33,5 +33,10 @@ const theaterApi = {
       token
     );
   },
+
+  fetchSystems() {
+    return callApi(`QuanLyRap/LayThongTinHeThongRap`);
+  },
+
 };
 export default theaterApi;
