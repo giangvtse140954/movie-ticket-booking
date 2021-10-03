@@ -20,6 +20,14 @@ const movieApi = {
   uploadImg(formData) {
     return callApi(`QuanLyPhim/ThemPhimUploadHinh`, 'POST', formData);
   },
+  deleteMovie(movieId, token) {
+    return callApi(
+      `QuanLyPhim/XoaPhim?MaPhim=${movieId}`,
+      'DELETE',
+      null,
+      token
+    );
+  },
 };
 
 export default movieApi;

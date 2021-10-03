@@ -1,14 +1,24 @@
 import { Space, Table } from 'antd';
-import moment from 'moment';
 import './Dashboard.scss';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import movieApi from '../../../apis/movieApi';
+import { connect } from 'react-redux';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   state = {
     movies: null,
+  };
+  onDeleteClick = async (movieId) => {
+    console.log(movieId);
+    try {
+      await movieApi.deleteMovie(movieId, this.props.currentUser.accessToken);
+      const { data } = await movieApi.fetchAllMovieApi();
+      this.setState({ movies: data });
+    } catch (err) {
+      console.log(err);
+    }
   };
   render() {
     const columns = [
@@ -58,7 +68,13 @@ export default class Dashboard extends Component {
           <Space size='middle'>
             <button>Tạo lịch chiếu</button>
             <button>Sửa</button>
-            <button>X</button>
+            <button
+              onClick={() => {
+                this.onDeleteClick(record.maPhim);
+              }}
+            >
+              X
+            </button>
           </Space>
         ),
       },
@@ -74,10 +90,13 @@ export default class Dashboard extends Component {
   async componentDidMount() {
     try {
       const { data } = await movieApi.fetchAllMovieApi();
-      console.log(data);
       this.setState({ movies: data });
     } catch (err) {
       console.log(err);
     }
   }
 }
+const mapStateToProps = (state) => ({
+  currentUser: state.authReducer.currentUser,
+});
+export default connect(mapStateToProps)(Dashboard);

@@ -12,8 +12,6 @@ export default class AddMovie extends Component {
     let frm = new FormData();
     for (let key in values) {
       frm.append(key, values[key]);
-      console.log(key);
-      console.log(values[key]);
     }
     frm.append('hinhAnh', this.state.selectedFile);
     frm.append('maNhom', 'GP14');
@@ -28,42 +26,21 @@ export default class AddMovie extends Component {
       );
     } catch (err) {
       const key = 'updatable';
-
       this.setState({ isSuccess: false }, () =>
         setTimeout(() => {
           message.error({
-            content: 'Tác vụ không thành công',
+            content: err.response.data,
             key,
             duration: 2,
           });
-        }, 1000)
+        }, 2000)
       );
-      console.log(err);
     }
   };
   onFileChange = (e) => {
-    console.log(e.target.files[0]);
     this.setState({ selectedFile: e.target.files[0] });
   };
-  onFinishFailed = async (errorInfo) => {
-    console.log(errorInfo);
-    const key = 'updatable';
-
-    this.setState({ isSuccess: false }, () =>
-      setTimeout(() => {
-        message.error({ content: 'Tác vụ không thành công', key, duration: 2 });
-      }, 1000)
-    );
-  };
-  normFile = (e) => {
-    // console.log('Upload event:', e);
-
-    if (Array.isArray(e)) {
-      return e;
-    }
-
-    return e && e.fileList;
-  };
+  onFinishFailed = async (errorInfo) => {};
   render() {
     return (
       <Form
@@ -96,14 +73,8 @@ export default class AddMovie extends Component {
         >
           <Input />
         </Form.Item>
-        {/* <Form.Item
-          label='Hình ảnh'
-          name='hinhAnh'
-          rules={[{ required: true, message: 'Please input your username!' }]}
-        >
-          <Input />
-        </Form.Item> */}
         <input type='file' onChange={this.onFileChange} name='hinhAnh' />
+
         <Form.Item
           label='Mô tả'
           name='moTa'
