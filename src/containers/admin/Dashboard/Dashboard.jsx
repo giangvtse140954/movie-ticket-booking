@@ -1,17 +1,23 @@
-import { Space, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import './Dashboard.scss';
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import movieApi from '../../../apis/movieApi';
 import { connect } from 'react-redux';
+import Showtime from './Showtime/Showtime';
 
 class Dashboard extends Component {
   state = {
     movies: null,
+    visible: false,
+    selectedMovie: { maPhim: '1327' },
+    loading: true,
+  };
+  onModalClick = async (selectedMovie) => {
+    this.setState({ visible: true, selectedMovie });
   };
   onDeleteClick = async (movieId) => {
-    console.log(movieId);
     try {
       await movieApi.deleteMovie(movieId, this.props.currentUser.accessToken);
       const { data } = await movieApi.fetchAllMovieApi();
@@ -66,31 +72,47 @@ class Dashboard extends Component {
         key: 'action',
         render: (text, record) => (
           <Space size='middle'>
-            <button>Tạo lịch chiếu</button>
-            <button>Sửa</button>
-            <button
+            <Button type='primary' onClick={() => this.onModalClick(record)}>
+              Tạo lịch chiếu
+            </Button>
+            <Button type='primary' ghost>
+              Sửa
+            </Button>
+            <Button
               onClick={() => {
                 this.onDeleteClick(record.maPhim);
               }}
+              type='primary'
+              danger
             >
               X
-            </button>
+            </Button>
           </Space>
         ),
       },
     ];
     return (
       <div>
-        <Link to='/admin/add-movie'>Thêm phim</Link>
+        <Showtime
+          visible={this.state.visible}
+          onOk={() => this.setState({ visible: false })}
+          onCancel={() => this.setState({ visible: false })}
+          movie={this.state.selectedMovie}
+        />
+        <Link to='/admin/movie-detail'>Thêm phim</Link>
         <input type='text' /> <button>Tìm</button>
-        <Table columns={columns} dataSource={this.state.movies} />
+        <Table
+          columns={columns}
+          dataSource={this.state.movies}
+          loading={this.state.loading}
+        />
       </div>
     );
   }
   async componentDidMount() {
     try {
       const { data } = await movieApi.fetchAllMovieApi();
-      this.setState({ movies: data });
+      this.setState({ movies: data, loading: false });
     } catch (err) {
       console.log(err);
     }
