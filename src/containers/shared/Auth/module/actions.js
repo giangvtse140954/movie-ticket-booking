@@ -24,4 +24,4 @@ export const actLogin = (user) => async (dispatch) => {
     dispatch(actLoginFail('Unable to login!'));
   }
 };
-export const actLogout = () => ({ type: LOGOUT });
+export const actLogout = () => ({ type: LOGOUT, payload: null });

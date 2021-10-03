@@ -8,6 +8,7 @@ import Slider from 'react-slick';
 import _ from 'lodash';
 import history from '../../../../utils/history';
 import TrailerModal from '../../../../components/TrailerModal/TrailerModal';
+import axios from 'axios';
 
 export default class MovieList extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class MovieList extends Component {
         const to = '01%2F01%2F' + flag;
 
         // get movie to 'to' date
-        const day = `${curDate.getDay()}`.padStart(2, '0');
+        const day = `${curDate.getDate()}`.padStart(2, '0');
         const month = `${curDate.getMonth() + 1}`.padStart(2, '0');
         const year = curDate.getFullYear();
         const from = [day, month, year].join('%2F');
@@ -166,12 +167,13 @@ export default class MovieList extends Component {
       const from = '01%2F01%2F' + flag;
 
       // get movie to 'to' date
-      const day = `${curDate.getDay()}`.padStart(2, '0');
+      const day = `${curDate.getDate()}`.padStart(2, '0');
       const month = `${curDate.getMonth() + 1}`.padStart(2, '0');
       const year = curDate.getFullYear();
       const to = [day, month, year].join('%2F');
 
       const { data } = await movieApi.fetchMovieOnDateApi(from, to, 1, 100);
+
       this.setState({ recentMovies: data });
     } catch (err) {
       console.log(err);

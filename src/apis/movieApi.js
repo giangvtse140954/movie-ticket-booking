@@ -17,6 +17,9 @@ const movieApi = {
     }soTrang=${pageNum}&soPhanTuTrenTrang=${numOfItems}&tuNgay=${from}&denNgay=${to}`;
     return callApi(url);
   },
+  uploadImg(formData) {
+    return callApi(`QuanLyPhim/ThemPhimUploadHinh`, 'POST', formData);
+  },
 };
 
 export default movieApi;

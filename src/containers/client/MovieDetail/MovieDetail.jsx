@@ -7,6 +7,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { getYoutubeThumbnail } from '../../../utils/getImgFromLink';
+import Loading from '../../../components/Loading/Loading';
 const { TabPane } = Tabs;
 
 export default class MovieDetail extends Component {
@@ -14,6 +15,7 @@ export default class MovieDetail extends Component {
     movie: null,
     selectedSystem: null,
     cinema: null,
+    loading: true,
   };
   // getThisWeekDates() {
   //   var weekDates = [];
@@ -24,6 +26,7 @@ export default class MovieDetail extends Component {
   //   return weekDates;
   // }
   render() {
+    if (this.state.loading) return <Loading />;
     const { movie, selectedSystem } = this.state;
     const days = {
       Monday: 'Thứ Hai',
@@ -38,9 +41,10 @@ export default class MovieDetail extends Component {
     let dates = null;
 
     if (movie) {
+      console.log(movie);
       const dd = new Date(movie.ngayKhoiChieu);
       strDate =
-        dd.getDay() + '/' + (dd.getMonth() + 1) + '/' + dd.getFullYear();
+        dd.getDate() + '/' + (dd.getMonth() + 1) + '/' + dd.getFullYear();
 
       // value for render showtime
       const toDay = moment().subtract({ days: 1 });
@@ -76,21 +80,26 @@ export default class MovieDetail extends Component {
                   <div className='info__detail'>
                     <h2>{movie.tenPhim}</h2>
                     <p>{movie.moTa}</p>
-                    <p>
-                      Thời lượng:{' '}
-                      {
-                        movie.heThongRapChieu[0].cumRapChieu[0].lichChieuPhim[0]
-                          .thoiLuong
-                      }
-                    </p>
+                    {movie.heThongRapChieu.length > 0 && (
+                      <p>
+                        Thời lượng:
+                        {
+                          movie.heThongRapChieu[0].cumRapChieu[0]
+                            .lichChieuPhim[0].thoiLuong
+                        }
+                      </p>
+                    )}
+
                     <p>Ngày khởi chiếu: {strDate}</p>
-                    <p>
-                      Giá vé:{' '}
-                      {
-                        movie.heThongRapChieu[0].cumRapChieu[0].lichChieuPhim[0]
-                          .giaVe
-                      }
-                    </p>
+                    {movie.heThongRapChieu.length > 0 && (
+                      <p>
+                        Giá vé:
+                        {
+                          movie.heThongRapChieu[0].cumRapChieu[0]
+                            .lichChieuPhim[0].giaVe
+                        }
+                      </p>
+                    )}
                     <button className='info__button'>XEM TRAILER</button>
                     <button className='info__button'>MUA VÉ NGAY</button>
                   </div>
@@ -101,7 +110,7 @@ export default class MovieDetail extends Component {
         ) : (
           <Spin />
         )}
-        {movie ? (
+        {movie && movie.heThongRapChieu.length > 0 ? (
           <div className='time'>
             <Row>
               <Col span={6}>
@@ -264,7 +273,7 @@ export default class MovieDetail extends Component {
         );
         cinema = result.data;
       }
-      this.setState({ movie: data, selectedSystem, cinema });
+      this.setState({ movie: data, selectedSystem, cinema, loading: false });
     } catch (err) {
       console.log(err);
     }

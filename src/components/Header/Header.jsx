@@ -13,14 +13,14 @@ import { actLogout } from '../../containers/shared/Auth/module/actions';
 
 class Header extends Component {
   onClick = ({ key }) => {
-    if (key === '2') this.props.logout();
+    if (key === '2') {
+      this.props.logout();
+      history.push('/');
+    }
   };
   menu = (
     <Menu onClick={this.onClick}>
-      {this.props.currentUser &&
-      this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
-        <Menu.Item key='1'>Chức năng quan lý</Menu.Item>
-      ) : null}
+      <Menu.Item key='1'>Thông tin cá nhân</Menu.Item>
       <Menu.Item key='2'>Đăng xuất</Menu.Item>
     </Menu>
   );
@@ -73,7 +73,6 @@ class Header extends Component {
                 >
                   <Avatar icon={<UserOutlined />} />
                   <span className='header__text'>
-                    {' '}
                     Chào!, {this.props.currentUser.hoTen}
                   </span>
                   <CaretDownOutlined />

@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import withLayout from '../hocs/withLayout';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
 class ClientLayout extends Component {
   render() {
-    return (
+    return this.props.currentUser &&
+      this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
+      <Redirect to='/admin' />
+    ) : (
       <>
         <Header />
         {this.props.children}
@@ -13,5 +18,17 @@ class ClientLayout extends Component {
       </>
     );
   }
+  // render() {
+  //   return (
+  //     <>
+  //       <Header />
+  //       {this.props.children}
+  //       <Footer />
+  //     </>
+  //   );
+  // }
 }
-export default withLayout(ClientLayout);
+const mapStateToProps = (state) => ({
+  currentUser: state.authReducer.currentUser,
+});
+export default withLayout(connect(mapStateToProps)(ClientLayout));

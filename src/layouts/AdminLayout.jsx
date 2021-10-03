@@ -1,0 +1,93 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import withLayout from '../hocs/withLayout';
+import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { CaretDownOutlined, UserOutlined } from '@ant-design/icons';
+import { actLogout } from '../containers/shared/Auth/module/actions';
+import history from '../utils/history';
+import { Link } from 'react-router-dom';
+
+const { Header, Content, Sider } = Layout;
+
+class AdminLayout extends Component {
+  onClick = ({ key }) => {
+    if (key === '2') {
+      this.props.logout();
+      history.push('/');
+    }
+  };
+  // onSiderClick = ({ key }) => {
+  //   if (key === '1') history.push('/admin');
+  //   if (key === '2') history.push('/admin/user-management');
+  // };
+  menu = (
+    <Menu onClick={this.onClick}>
+      <Menu.Item key='2'>Đăng xuất</Menu.Item>
+    </Menu>
+  );
+  render() {
+    return this.props.currentUser &&
+      this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
+      <Layout>
+        <Sider>
+          <div className='logo' />
+          <div>
+            <Link to='/admin'>Quản lý phim</Link>
+          </div>
+          <div>
+            <Link to='/admin/user-management'>Quản lý người dùng</Link>
+          </div>
+          {/* <Menu
+            theme='dark'
+            mode='inline'
+            defaultSelectedKeys={['4']}
+            // onClick={this.onSiderClick}
+          >
+            <Menu.Item key='4'>
+              <Link to='/admin'>Quản lý phim</Link>
+            </Menu.Item>
+            <Menu.Item key='5'>
+              <Link to='/admin/user-management'>Quản lý người dùng</Link>
+            </Menu.Item>
+          </Menu> */}
+        </Sider>
+        <Layout>
+          <Header
+            className='site-layout-sub-header-background'
+            style={{ padding: 0 }}
+          >
+            <Dropdown overlay={this.menu}>
+              <a
+                className='ant-dropdown-link'
+                onClick={(e) => e.preventDefault()}
+              >
+                <Avatar icon={<UserOutlined />} />
+                <span style={{ color: '#fff', marginLeft: '10px' }}>
+                  Chào!, {this.props.currentUser.hoTen}
+                </span>
+                <CaretDownOutlined style={{ color: '#fff' }} />
+              </a>
+            </Dropdown>
+          </Header>
+          <Content style={{ margin: '24px 16px 0' }}>
+            <div
+              className='site-layout-background'
+              style={{ padding: 24, minHeight: 360 }}
+            >
+              {this.props.children}
+            </div>
+          </Content>
+        </Layout>
+      </Layout>
+    ) : (
+      <Redirect to='/' />
+    );
+  }
+}
+const mapStateToProps = (state) => ({
+  currentUser: state.authReducer.currentUser,
+});
+export default withLayout(
+  connect(mapStateToProps, { logout: actLogout })(AdminLayout)
+);

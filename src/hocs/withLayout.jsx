@@ -24,6 +24,7 @@ const withLayout = (WrappedComponent) => {
         // protect private route
         if (isPrivate) {
           if (this.props.currentUser) {
+            // console.log(this.props.currentUser);
             return content;
           }
           alert('Please login!');
