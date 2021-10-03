@@ -18,5 +18,8 @@ const theaterApi = {
       `QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${systemId}`
     );
   },
+  fetchSystems() {
+    return callApi(`QuanLyRap/LayThongTinHeThongRap`);
+  },
 };
 export default theaterApi;
