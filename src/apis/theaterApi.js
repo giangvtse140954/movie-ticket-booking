@@ -1,5 +1,5 @@
-import { GROUP_ID } from '../settings/apiConfig';
-import callApi from '../utils/callApi';
+import { GROUP_ID } from "../settings/apiConfig";
+import callApi from "../utils/callApi";
 
 const theaterApi = {
   fetchTheaterOnMovieApi(movieId) {
@@ -16,6 +16,21 @@ const theaterApi = {
   fetchCinemaBySystemApi(systemId) {
     return callApi(
       `QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${systemId}`
+    );
+  },
+
+  //Lấy hệ thống rạp
+  layHeThongRap() {
+    return callApi(`QuanLyRap/LayThongTinHeThongRap`);
+  },
+
+  //Tạo lịch chiếu
+  taoLichChieu(thongtinlichchieu, token) {
+    return callApi(
+      "QuanLyDatVe/TaoLichChieu",
+      "POST",
+      thongtinlichchieu,
+      token
     );
   },
 };

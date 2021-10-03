@@ -1,10 +1,10 @@
-import { Space, Table } from 'antd';
-import './Dashboard.scss';
+import { Space, Table, Button } from "antd";
+import "./Dashboard.scss";
 
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import movieApi from '../../../apis/movieApi';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import movieApi from "../../../apis/movieApi";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class Dashboard extends Component {
   state = {
@@ -23,50 +23,53 @@ class Dashboard extends Component {
   render() {
     const columns = [
       {
-        title: 'Mã phim',
-        dataIndex: 'maPhim',
-        key: 'id',
+        title: "Mã phim",
+        dataIndex: "maPhim",
+        key: "id",
         render: (text) => <a>{text}</a>,
       },
       {
-        title: 'Tên phim',
-        dataIndex: 'tenPhim',
-        key: 'name',
+        title: "Tên phim",
+        dataIndex: "tenPhim",
+        key: "name",
       },
       {
-        title: 'Hình ảnh',
-        dataIndex: 'hinhAnh',
-        key: 'image',
+        title: "Hình ảnh",
+        dataIndex: "hinhAnh",
+        key: "image",
         render: (text) => (
-          <img src={text} alt='anhhh' style={{ width: '50px' }} />
+          <img src={text} alt="anhhh" style={{ width: "50px" }} />
         ),
       },
       {
-        title: 'Mô tả',
-        dataIndex: 'moTa',
-        key: 'description',
-        render: (text) => <div className='dashboard__table'>{text}</div>,
+        title: "Mô tả",
+        dataIndex: "moTa",
+        key: "description",
+        render: (text) => <div className="dashboard__table">{text}</div>,
       },
       {
-        title: 'Mã nhóm',
-        dataIndex: 'maNhom',
-        key: 'groupId',
+        title: "Mã nhóm",
+        dataIndex: "maNhom",
+        key: "groupId",
       },
       {
-        title: 'Ngày khởi chiếu',
-        dataIndex: 'ngayKhoiChieu',
-        key: 'date',
+        title: "Ngày khởi chiếu",
+        dataIndex: "ngayKhoiChieu",
+        key: "date",
         render: (text) =>
           `${new Date(text).getDate()}/${
             new Date(text).getMonth() + 1
           }/${new Date(text).getFullYear()}`,
       },
       {
-        title: 'Action',
-        key: 'action',
+        title: "Action",
+        key: "action",
         render: (text, record) => (
-          <Space size='middle'>
-            <button>Tạo lịch chiếu</button>
+          <Space size="middle">
+            <Link to={`/admin/showtime/${record.maPhim}`}>
+              <Button>Tạo lịch chiếu</Button>
+            </Link>
+
             <button>Sửa</button>
             <button
               onClick={() => {
@@ -81,8 +84,8 @@ class Dashboard extends Component {
     ];
     return (
       <div>
-        <Link to='/admin/add-movie'>Thêm phim</Link>
-        <input type='text' /> <button>Tìm</button>
+        <Link to="/admin/add-movie">Thêm phim</Link>
+        <input type="text" /> <button>Tìm</button>
         <Table columns={columns} dataSource={this.state.movies} />
       </div>
     );
