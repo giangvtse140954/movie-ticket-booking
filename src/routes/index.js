@@ -5,7 +5,6 @@ import AddUser from "../containers/admin/UserManagement/AddUser/AddUser";
 import Home from "../containers/client/Home/Home";
 import MovieDetail from "../containers/client/MovieDetail/MovieDetail";
 import TheaterDetail from "../containers/client/TheaterDetail/TheaterDetail";
-import Showtime from "../containers/admin/Showtime/Showtime";
 
 export const clientRoutes = [
   {
@@ -52,10 +51,5 @@ export const adminRoutes = [
     exact: true,
     isPrivate: true,
   },
-  {
-    path: "/admin/showtime/:id",
-    component: Showtime,
-    exact: true,
-    isPrivate: true,
-  },
+  
 ];
