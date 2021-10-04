@@ -62,7 +62,7 @@ class AddUser extends Component {
             email: "",
             soDt: "",
             maNhom: "GP14",
-            maLoaiNguoiDung: "",
+            maLoaiNguoiDung: "KhachHang",
             hoTen: "",
           }}
           validationSchema={addUserSchema}
@@ -147,11 +147,15 @@ class AddUser extends Component {
               <div class="form-group">
                 <label>Mã Loại người dùng</label>
                 <Field
+                  component="select"
                   type="text"
                   name="maLoaiNguoiDung"
                   class="form-control"
                   onchange={formik.handleChange}
-                />
+                >
+                  <option>QuanTri</option>
+                  <option>KhachHang</option>
+                </Field>
                 <ErrorMessage name="maLoaiNguoiDung">
                   {(msg) => <div className="text-danger">{msg}</div>}
                 </ErrorMessage>
