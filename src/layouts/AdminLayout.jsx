@@ -7,6 +7,7 @@ import { CaretDownOutlined, UserOutlined } from '@ant-design/icons';
 import { actLogout } from '../containers/shared/Auth/module/actions';
 import history from '../utils/history';
 import { Link } from 'react-router-dom';
+import './Layout.scss';
 
 const { Header, Content, Sider } = Layout;
 
@@ -17,25 +18,26 @@ class AdminLayout extends Component {
       history.push('/');
     }
   };
-  // onSiderClick = ({ key }) => {
-  //   if (key === '1') history.push('/admin');
-  //   if (key === '2') history.push('/admin/user-management');
-  // };
   menu = (
     <Menu onClick={this.onClick}>
       <Menu.Item key='2'>Đăng xuất</Menu.Item>
     </Menu>
   );
   render() {
+    const { pathname } = history.location;
     return this.props.currentUser &&
       this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
       <Layout>
-        <Sider>
+        <Sider style={{ minHeight: '100vh' }}>
           <div className='logo' />
-          <div>
+          <div className={`link ${'/admin' === pathname && 'active'}`}>
             <Link to='/admin'>Quản lý phim</Link>
           </div>
-          <div>
+          <div
+            className={`link ${
+              '/admin/user-management' === pathname && 'active'
+            }`}
+          >
             <Link to='/admin/user-management'>Quản lý người dùng</Link>
           </div>
           {/* <Menu

@@ -1,9 +1,9 @@
-import { Button } from "antd";
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Space, Table, Input } from "antd";
-import userApi from "../../../apis/userApi";
-import { connect } from "react-redux";
+import { Button } from 'antd';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Space, Table, Input } from 'antd';
+import userApi from '../../../apis/userApi';
+import { connect } from 'react-redux';
 const { Search } = Input;
 class UserManagement extends Component {
   state = {
@@ -35,42 +35,42 @@ class UserManagement extends Component {
   render() {
     const columns = [
       {
-        title: "Tài Khoản",
-        dataIndex: "taiKhoan",
-        key: "taiKhoan",
+        title: 'Tài Khoản',
+        dataIndex: 'taiKhoan',
+        key: 'taiKhoan',
         render: (text) => <a>{text}</a>,
       },
       {
-        title: "Họ Tên",
-        dataIndex: "hoTen",
-        key: "hoTen",
+        title: 'Họ Tên',
+        dataIndex: 'hoTen',
+        key: 'hoTen',
       },
       {
-        title: "Số Điện Thoại",
-        dataIndex: "soDt",
-        key: "soDt",
-        render: (text) => <div className="dashboard__table">{text}</div>,
+        title: 'Số Điện Thoại',
+        dataIndex: 'soDt',
+        key: 'soDt',
+        render: (text) => <div className='dashboard__table'>{text}</div>,
       },
       {
-        title: "Email ",
-        dataIndex: "email",
-        key: "email",
+        title: 'Email ',
+        dataIndex: 'email',
+        key: 'email',
       },
       {
-        title: "Mã Loại Người Dùng ",
-        dataIndex: "maLoaiNguoiDung",
-        key: "maLoaiNguoiDung",
+        title: 'Mã Loại Người Dùng ',
+        dataIndex: 'maLoaiNguoiDung',
+        key: 'maLoaiNguoiDung',
       },
       {
-        title: "Action",
-        key: "action",
+        title: 'Action',
+        key: 'action',
         render: (text, record) => (
-          <Space size="middle">
-            <button className="btn btn-info">Sửa</button>
+          <Space size='middle'>
+            <button className='btn btn-info'>Sửa</button>
             <button
-              className="btn btn-danger"
+              className='btn btn-danger'
               onClick={() => {
-                if (window.confirm("bạn có muốn xóa tài khoản này không")) {
+                if (window.confirm('bạn có muốn xóa tài khoản này không')) {
                   this.deleteUser(record.taiKhoan);
                 }
               }}
@@ -83,16 +83,16 @@ class UserManagement extends Component {
     ];
     return (
       <div>
-        <Link to="/admin/add-user">
-          <Button className="mb-3">Thêm người dùng</Button>
+        <Link to='/admin/add-user'>
+          <Button className='mb-3'>Thêm người dùng</Button>
         </Link>
         <Search
-          placeholder="input search text"
+          placeholder='input search text'
           allowClear
-          enterButton="Search"
-          size="large"
+          enterButton='Search'
+          size='large'
           onSearch={this.onSearch}
-          className="mb-4"
+          className='mb-4'
         />
         <Table columns={columns} dataSource={this.state.listUsers} />
       </div>
@@ -101,7 +101,6 @@ class UserManagement extends Component {
   async componentDidMount() {
     try {
       const { data } = await userApi.fetchAllUserAdmin();
-      console.log(data);
       this.setState({ listUsers: data });
     } catch (error) {
       console.log(error);
