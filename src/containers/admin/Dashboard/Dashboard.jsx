@@ -1,19 +1,17 @@
+import { Button, Space, Table } from "antd";
+import "./Dashboard.scss";
 
-import { Button, Space, Table } from 'antd';
-import './Dashboard.scss';
-
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import movieApi from '../../../apis/movieApi';
-import { connect } from 'react-redux';
-import Showtime from './Showtime/Showtime';
-
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import movieApi from "../../../apis/movieApi";
+import { connect } from "react-redux";
+import Showtime from "./Showtime/Showtime";
 
 class Dashboard extends Component {
   state = {
     movies: null,
     visible: false,
-    selectedMovie: { maPhim: '1327' },
+    selectedMovie: { maPhim: "1327" },
     loading: true,
   };
   onModalClick = async (selectedMovie) => {
@@ -73,19 +71,18 @@ class Dashboard extends Component {
         title: "Action",
         key: "action",
         render: (text, record) => (
-          <Space size='middle'>
-            <Button type='primary' onClick={() => this.onModalClick(record)}>
+          <Space size="middle">
+            <Button type="primary" onClick={() => this.onModalClick(record)}>
               Tạo lịch chiếu
             </Button>
-            <Button type='primary' ghost>
+            <Button type="primary" ghost>
               Sửa
             </Button>
             <Button
-
               onClick={() => {
                 this.onDeleteClick(record.maPhim);
               }}
-              type='primary'
+              type="primary"
               danger
             >
               X
@@ -102,8 +99,10 @@ class Dashboard extends Component {
           onCancel={() => this.setState({ visible: false })}
           movie={this.state.selectedMovie}
         />
-        <Link to='/admin/movie-detail'>Thêm phim</Link>
-        <input type='text' /> <button>Tìm</button>
+        <Link to="/admin/movie-detail">
+          <Button className="mb-3">Thêm phim</Button>
+        </Link>
+        <input type="text" /> <button className="ml-auto">Tìm</button>
         <Table
           columns={columns}
           dataSource={this.state.movies}

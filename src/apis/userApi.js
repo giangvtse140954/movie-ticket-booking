@@ -23,10 +23,19 @@ const userApi = {
     );
   },
   //Search User
-
   searchUser: (taiKhoan) => {
     return callApi(
       `QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=${GROUP_ID}&tuKhoa=${taiKhoan}`
+    );
+  },
+
+  //Update user
+  updateUser: (formData, token) => {
+    return callApi(
+      `QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+      "PUT",
+      formData,
+      token
     );
   },
 };

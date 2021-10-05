@@ -39,7 +39,7 @@ class Showtime extends Component {
   };
   handleSystemsMenuClick = async (value) => {
     const { data } = await theaterApi.fetchCinemaBySystemApi(value);
-    this.setState({ cinemas: data });
+    this.setState({ cinemas: data, rooms: null });
   };
   handleCinemasMenuClick = (value) => {
     const cinema = this.state.cinemas.find((cinema) => {

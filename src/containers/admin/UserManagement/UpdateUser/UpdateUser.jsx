@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import userApi from "../../../../apis/userApi";
-import { connect } from "react-redux";
+import { Modal } from "antd";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { message } from "antd";
+import { connect } from "react-redux";
+import userApi from "../../../../apis/userApi";
 
 const addUserSchema = yup.object().shape({
   taiKhoan: yup.string().required("Vui lòng nhập tài khoản"),
@@ -15,55 +15,58 @@ const addUserSchema = yup.object().shape({
   soDt: yup
     .string()
     .required("Vui lòng nhập số điện thoại")
-    .matches(/^[0-9]+$/),
+    .matches(/^[0-9]+$/, "Số điện thoại phải là số"),
   maNhom: yup.string().required("Vui lòng nhập mã nhóm"),
   maLoaiNguoiDung: yup.string().required("Vui lòng nhập loại người dùng"),
   hoTen: yup.string().required("Vui lòng nhập họ tên"),
 });
-
-class AddUser extends Component {
+class UpdateUser extends Component {
   state = {
     isSuccess: false,
+    listUsers: null,
   };
-
   handleSubmit = async (values) => {
-    // console.log(values);
+    console.log(values);
+    const token = this.props.currentUser.accessToken;
     try {
-      await userApi.addUserAdmin(values, this.props.currentUser.accessToken);
-      const key = "updatable";
-      this.setState({ isSuccess: true }, () =>
-        setTimeout(() => {
-          message.success({ content: "Tác vụ thành công", key, duration: 2 });
-        }, 1000)
-      );
-      // alert("Thêm thành công");
+      await userApi.updateUser(values, token);
+      const { data } = await userApi.fetchAllUserAdmin();
+      this.setState = { listUsers: data };
+      alert("Cập nhật thành công");
     } catch (error) {
-      // console.log(error.response?.data);
-      const key = "updatable";
-      this.setState({ isSuccess: false }, () =>
-        setTimeout(() => {
-          message.error({
-            content: error.response.data,
-            key,
-            duration: 2,
-          });
-        }, 2000)
-      );
+      console.log(error);
     }
   };
+
   render() {
+    // console.log(this.props.user.taiKhoan);
+
+    console.log(this.props.currentUser.accessToken);
     return (
-      <div className="container">
-        <h3>Thêm tài khoản</h3>
+      <Modal
+        title="Cập nhật người dùng"
+        centered
+        visible={this.props.visible}
+        onOk={() => {
+          this.props.onOk();
+        }}
+        onCancel={() => {
+          this.props.onCancel();
+        }}
+        afterClose={() => {
+          this.props.updateList();
+        }}
+      >
         <Formik
+          enableReinitialize={true}
           initialValues={{
-            taiKhoan: "",
-            matKhau: "",
-            email: "",
-            soDt: "",
+            taiKhoan: this.props.user?.taiKhoan,
+            matKhau: this.props.user?.matKhau,
+            email: this.props.user?.email,
+            soDt: this.props.user?.soDt,
             maNhom: "GP14",
-            maLoaiNguoiDung: "KhachHang",
-            hoTen: "",
+            maLoaiNguoiDung: this.props.user?.maLoaiNguoiDung,
+            hoTen: this.props.user?.hoTen,
           }}
           validationSchema={addUserSchema}
           onSubmit={this.handleSubmit}
@@ -76,6 +79,8 @@ class AddUser extends Component {
                   name="taiKhoan"
                   class="form-control"
                   onchange={formik.handleChange}
+                  value={formik.values.taiKhoan}
+                  disabled={true}
                 />
                 <ErrorMessage name="taiKhoan">
                   {(msg) => <div className="text-danger">{msg}</div>}
@@ -88,6 +93,7 @@ class AddUser extends Component {
                   name="matKhau"
                   class="form-control"
                   onchange={formik.handleChange}
+                  value={formik.values.matKhau}
                 />
                 <ErrorMessage name="matKhau">
                   {(msg) => <div className="text-danger">{msg}</div>}
@@ -100,6 +106,7 @@ class AddUser extends Component {
                   name="email"
                   class="form-control"
                   onchange={formik.handleChange}
+                  value={formik.values.email}
                 />
                 <ErrorMessage name="email">
                   {(msg) => <div className="text-danger">{msg}</div>}
@@ -112,6 +119,7 @@ class AddUser extends Component {
                   name="soDt"
                   class="form-control"
                   onchange={formik.handleChange}
+                  value={formik.values.soDt}
                 />
                 <ErrorMessage name="soDt">
                   {(msg) => <div className="text-danger">{msg}</div>}
@@ -152,6 +160,7 @@ class AddUser extends Component {
                   name="maLoaiNguoiDung"
                   class="form-control"
                   onchange={formik.handleChange}
+                  value={formik.values.maLoaiNguoiDung}
                 >
                   <option>QuanTri</option>
                   <option>KhachHang</option>
@@ -167,26 +176,23 @@ class AddUser extends Component {
                   name="hoTen"
                   class="form-control"
                   onchange={formik.handleChange}
+                  value={formik.values.hoTen}
                 />
                 <ErrorMessage name="hoTen">
                   {(msg) => <div className="text-danger">{msg}</div>}
                 </ErrorMessage>
               </div>
               <div>
-                <button className="btn btn-primary">Thêm người dùng</button>
+                <button className="btn btn-primary">Cập nhật người dùng</button>
               </div>
             </Form>
           )}
         />
-      </div>
+      </Modal>
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    currentUser: state.authReducer.currentUser,
-  };
-};
-
-export default connect(mapStateToProps)(AddUser);
+const mapStateToProps = (state) => ({
+  currentUser: state.authReducer.currentUser,
+});
+export default connect(mapStateToProps)(UpdateUser);

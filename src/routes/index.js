@@ -5,6 +5,7 @@ import AddUser from "../containers/admin/UserManagement/AddUser/AddUser";
 import Home from "../containers/client/Home/Home";
 import MovieDetail from "../containers/client/MovieDetail/MovieDetail";
 import TheaterDetail from "../containers/client/TheaterDetail/TheaterDetail";
+import UpdateUser from "../containers/admin/UserManagement/UpdateUser/UpdateUser";
 
 export const clientRoutes = [
   {
@@ -40,7 +41,7 @@ export const adminRoutes = [
     isPrivate: true,
   },
   {
-    path: '/admin/movie-detail',
+    path: "/admin/movie-detail",
     component: AddMovie,
     exact: true,
     isPrivate: true,
@@ -51,5 +52,10 @@ export const adminRoutes = [
     exact: true,
     isPrivate: true,
   },
-  
+  {
+    path: "/admin/update-user/:userId",
+    component: UpdateUser,
+    exact: true,
+    isPrivate: true,
+  },
 ];

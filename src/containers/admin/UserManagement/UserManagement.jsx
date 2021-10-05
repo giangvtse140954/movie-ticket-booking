@@ -4,12 +4,27 @@ import { Link } from 'react-router-dom';
 import { Space, Table, Input } from 'antd';
 import userApi from '../../../apis/userApi';
 import { connect } from 'react-redux';
+import UpdateUser from './UpdateUser/UpdateUser';
+
 const { Search } = Input;
 class UserManagement extends Component {
   state = {
     listUsers: null,
+    selectUser: null,
+    visible: false,
   };
 
+  onModalClick = async (selectUser) => {
+    this.setState({ visible: true, selectUser });
+  };
+  updateList = async () => {
+    try {
+      const { data } = await userApi.fetchAllUserAdmin();
+      this.setState({ listUsers: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   deleteUser = async (taikhoan) => {
     const token = this.props.currentUser.accessToken;
     try {
@@ -66,7 +81,10 @@ class UserManagement extends Component {
         key: 'action',
         render: (text, record) => (
           <Space size='middle'>
-            <button className='btn btn-info'>Sửa</button>
+            <Button type='primary' onClick={() => this.onModalClick(record)}>
+              Sửa
+            </Button>
+
             <button
               className='btn btn-danger'
               onClick={() => {
@@ -83,6 +101,19 @@ class UserManagement extends Component {
     ];
     return (
       <div>
+        <UpdateUser
+          visible={this.state.visible}
+          onOk={() => {
+            this.setState({ visible: false });
+          }}
+          onCancel={() => {
+            this.setState({ visible: false });
+          }}
+          user={this.state.selectUser}
+          listUsers={this.state.listUsers}
+          updateList={this.updateList}
+        />
+
         <Link to='/admin/add-user'>
           <Button className='mb-3'>Thêm người dùng</Button>
         </Link>
