@@ -5,6 +5,7 @@ import { Space, Table, Input } from 'antd';
 import userApi from '../../../apis/userApi';
 import { connect } from 'react-redux';
 import UpdateUser from './UpdateUser/UpdateUser';
+
 const { Search } = Input;
 class UserManagement extends Component {
   state = {
@@ -83,6 +84,7 @@ class UserManagement extends Component {
             <Button type='primary' onClick={() => this.onModalClick(record)}>
               Sửa
             </Button>
+
             <button
               className='btn btn-danger'
               onClick={() => {
@@ -111,6 +113,7 @@ class UserManagement extends Component {
           listUsers={this.state.listUsers}
           updateList={this.updateList}
         />
+
         <Link to='/admin/add-user'>
           <Button className='mb-3'>Thêm người dùng</Button>
         </Link>
