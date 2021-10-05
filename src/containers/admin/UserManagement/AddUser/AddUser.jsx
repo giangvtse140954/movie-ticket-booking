@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { message } from "antd";
+import history from "../../../../utils/history";
 
 const addUserSchema = yup.object().shape({
   taiKhoan: yup.string().required("Vui lòng nhập tài khoản"),
@@ -36,6 +37,7 @@ class AddUser extends Component {
           message.success({ content: "Tác vụ thành công", key, duration: 2 });
         }, 1000)
       );
+      history.push("/admin/user-management");
       // alert("Thêm thành công");
     } catch (error) {
       // console.log(error.response?.data);

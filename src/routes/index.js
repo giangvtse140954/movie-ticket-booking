@@ -6,6 +6,7 @@ import Home from "../containers/client/Home/Home";
 import MovieDetail from "../containers/client/MovieDetail/MovieDetail";
 import TheaterDetail from "../containers/client/TheaterDetail/TheaterDetail";
 import UpdateUser from "../containers/admin/UserManagement/UpdateUser/UpdateUser";
+import LichSuDatVe from "../containers/client/BookingHistory/LichSuDatVe";
 
 export const clientRoutes = [
   {
@@ -23,6 +24,12 @@ export const clientRoutes = [
   {
     path: "/theater-detail/:theaterId",
     component: TheaterDetail,
+    exact: false,
+    isPrivate: false,
+  },
+  {
+    path: "/thongTinNguoiDung",
+    component: LichSuDatVe,
     exact: false,
     isPrivate: false,
   },
