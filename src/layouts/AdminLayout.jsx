@@ -1,85 +1,75 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router";
-import withLayout from "../hocs/withLayout";
-import { Layout, Menu, Dropdown, Avatar } from "antd";
-import {
-  CaretDownOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  DesktopOutlined,
-  FileOutlined,
-  TeamOutlined,
-  PieChartOutlined,
-} from "@ant-design/icons";
-import { actLogout } from "../containers/shared/Auth/module/actions";
-import history from "../utils/history";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
+import withLayout from '../hocs/withLayout';
+import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { CaretDownOutlined, UserOutlined } from '@ant-design/icons';
+import { actLogout } from '../containers/shared/Auth/module/actions';
+import history from '../utils/history';
+import { Link } from 'react-router-dom';
+import './Layout.scss';
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
 class AdminLayout extends Component {
   onClick = ({ key }) => {
-    if (key === "2") {
+    if (key === '2') {
       this.props.logout();
-      history.push("/");
+      history.push('/');
     }
   };
-  // onSiderClick = ({ key }) => {
-  //   if (key === '1') history.push('/admin');
-  //   if (key === '2') history.push('/admin/user-management');
-  // };
   menu = (
     <Menu onClick={this.onClick}>
-      <Menu.Item key="2">Đăng xuất</Menu.Item>
+      <Menu.Item key='2'>Đăng xuất</Menu.Item>
     </Menu>
   );
   render() {
+    const { pathname } = history.location;
     return this.props.currentUser &&
-      this.props.currentUser.maLoaiNguoiDung === "QuanTri" ? (
-      <Layout style={{ minHeight: "100vh" }}>
-        <Sider collapsible>
-          <div className="logo">
-            <img
-              src="https://tix.vn/app/assets/img/icons/web-logo.png"
-              alt="logo"
-              onClick={() => {
-                history.push("/");
-              }}
-              width="60px"
-              className="p-2"
-            />
+      this.props.currentUser.maLoaiNguoiDung === 'QuanTri' ? (
+      <Layout>
+        <Sider style={{ minHeight: '100vh' }}>
+          <div className='logo' />
+          <div className={`link ${'/admin' === pathname && 'active'}`}>
+            <Link to='/admin'>Quản lý phim</Link>
           </div>
-          <Menu theme="dark" defaultSelectedKeys={["3"]} mode="inline">
+          <div
+            className={`link ${
+              '/admin/user-management' === pathname && 'active'
+            }`}
+          >
+            <Link to='/admin/user-management'>Quản lý người dùng</Link>
+          </div>
+          {/* <Menu theme="dark" defaultSelectedKeys={["3"]} mode="inline">
             <Menu.Item key="3" icon={<VideoCameraOutlined />}>
               <Link to="/admin">Quản lý phim</Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<UserOutlined />}>
               <Link to="/admin/user-management">Quản lý người dùng</Link>
             </Menu.Item>
-          </Menu>
+          </Menu> */}
         </Sider>
         <Layout>
           <Header
-            className="site-layout-sub-header-background"
+            className='site-layout-sub-header-background'
             style={{ padding: 0 }}
           >
             <Dropdown overlay={this.menu}>
               <a
-                className="ant-dropdown-link"
+                className='ant-dropdown-link'
                 onClick={(e) => e.preventDefault()}
               >
                 <Avatar icon={<UserOutlined />} />
-                <span style={{ color: "#fff", marginLeft: "10px" }}>
+                <span style={{ color: '#fff', marginLeft: '10px' }}>
                   Chào!, {this.props.currentUser.hoTen}
                 </span>
-                <CaretDownOutlined style={{ color: "#fff" }} />
+                <CaretDownOutlined style={{ color: '#fff' }} />
               </a>
             </Dropdown>
           </Header>
-          <Content style={{ margin: "24px 16px 0" }}>
+          <Content style={{ margin: '24px 16px 0' }}>
             <div
-              className="site-layout-background"
+              className='site-layout-background'
               style={{ padding: 24, minHeight: 360 }}
             >
               {this.props.children}
@@ -88,7 +78,7 @@ class AdminLayout extends Component {
         </Layout>
       </Layout>
     ) : (
-      <Redirect to="/" />
+      <Redirect to='/' />
     );
   }
 }

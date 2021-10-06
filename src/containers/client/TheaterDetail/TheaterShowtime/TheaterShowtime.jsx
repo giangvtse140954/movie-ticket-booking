@@ -9,7 +9,6 @@ const { TabPane } = Tabs;
 class TheaterShowtime extends Component {
   render() {
     const { selectedCinema } = this.props;
-    console.log(selectedCinema);
     const days = {
       Monday: 'Thứ Hai',
       Tuesday: 'Thứ Ba',
@@ -81,7 +80,10 @@ class TheaterShowtime extends Component {
                                   if (d >= date && d < tomorrow) {
                                     check = false;
                                     return (
-                                      <Link className='theatershow__time'>
+                                      <Link
+                                        className='theatershow__time'
+                                        to={`/booking/${showtime.maLichChieu}`}
+                                      >
                                         {d.getHours() + ':' + d.getMinutes()}
                                       </Link>
                                     );
