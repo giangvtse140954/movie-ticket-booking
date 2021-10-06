@@ -38,6 +38,11 @@ const userApi = {
       token
     );
   },
+
+  //Lấy thông tin người dùng
+  layThongTinNguoiDung: (taiKhoan) => {
+    return callApi("QuanLyNguoiDung/ThongTinTaiKhoan", "POST", taiKhoan);
+  },
 };
 
 export default userApi;

@@ -1,12 +1,13 @@
-import AddMovie from '../containers/admin/AddMovie/AddMovie';
-import Dashboard from '../containers/admin/Dashboard/Dashboard';
-import UserManagement from '../containers/admin/UserManagement/UserManagement';
-import AddUser from '../containers/admin/UserManagement/AddUser/AddUser';
-import Home from '../containers/client/Home/Home';
-import MovieDetail from '../containers/client/MovieDetail/MovieDetail';
-import TheaterDetail from '../containers/client/TheaterDetail/TheaterDetail';
-import UpdateUser from '../containers/admin/UserManagement/UpdateUser/UpdateUser';
-import Booking from '../containers/client/Booking/Booking';
+
+import AddMovie from "../containers/admin/AddMovie/AddMovie";
+import Dashboard from "../containers/admin/Dashboard/Dashboard";
+import UserManagement from "../containers/admin/UserManagement/UserManagement";
+import AddUser from "../containers/admin/UserManagement/AddUser/AddUser";
+import Home from "../containers/client/Home/Home";
+import MovieDetail from "../containers/client/MovieDetail/MovieDetail";
+import TheaterDetail from "../containers/client/TheaterDetail/TheaterDetail";
+import UpdateUser from "../containers/admin/UserManagement/UpdateUser/UpdateUser";
+import LichSuDatVe from "../containers/client/BookingHistory/LichSuDatVe";
 
 export const clientRoutes = [
   {
@@ -28,6 +29,11 @@ export const clientRoutes = [
     isPrivate: false,
   },
   {
+    path: "/thongTinNguoiDung",
+    component: LichSuDatVe,
+    exact: false,
+    isPrivate: false,
+  },
     path: '/booking/:bookingId',
     component: Booking,
     exact: false,

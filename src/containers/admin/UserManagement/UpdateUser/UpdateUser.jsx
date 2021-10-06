@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { connect } from "react-redux";
 import userApi from "../../../../apis/userApi";
+import history from "../../../../utils/history";
 
 const addUserSchema = yup.object().shape({
   taiKhoan: yup.string().required("Vui lòng nhập tài khoản"),
@@ -33,6 +34,7 @@ class UpdateUser extends Component {
       const { data } = await userApi.fetchAllUserAdmin();
       this.setState = { listUsers: data };
       alert("Cập nhật thành công");
+      // history.push("/admin/user-management");
     } catch (error) {
       console.log(error);
     }
