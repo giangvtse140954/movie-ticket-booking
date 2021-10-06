@@ -5,6 +5,7 @@ import { Button } from 'antd';
 import movieApi from '../../../../apis/movieApi';
 import theaterApi from '../../../../apis/theaterApi';
 import _ from 'lodash';
+import history from '../../../../utils/history';
 
 export default class Filter extends Component {
   state = {
@@ -144,6 +145,9 @@ export default class Filter extends Component {
             color: '#fff',
             borderRadius: '5px',
             border: 'none',
+          }}
+          onClick={() => {
+            history.push(`/booking/${this.state.selectedShowtime.maLichChieu}`);
           }}
         >
           MUA VÉ NGAY

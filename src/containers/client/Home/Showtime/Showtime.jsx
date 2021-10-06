@@ -85,7 +85,6 @@ class Showtime extends Component {
                       <Link
                         to={`/theater-detail/${item.maCumRap}`}
                         onClick={() => {
-                          console.log(item);
                           this.props.selectCinema(item);
                         }}
                       >
@@ -131,7 +130,7 @@ class Showtime extends Component {
                           return (
                             <Link
                               className='showtime__time'
-                              to={`/movie-detail/${showtime.maLichChieu}`}
+                              to={`/booking/${showtime.maLichChieu}`}
                               key={showtime.maLichChieu}
                             >
                               {time.getHours()}:{time.getMinutes()}{' '}

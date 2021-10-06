@@ -41,7 +41,6 @@ export default class MovieDetail extends Component {
     let dates = null;
 
     if (movie) {
-      console.log(movie);
       const dd = new Date(movie.ngayKhoiChieu);
       strDate =
         dd.getDate() + '/' + (dd.getMonth() + 1) + '/' + dd.getFullYear();
@@ -217,7 +216,7 @@ export default class MovieDetail extends Component {
                                                 check = true;
                                                 return (
                                                   <Link
-                                                    to='/cinema'
+                                                    to={`/booking/${item.maLichChieu}`}
                                                     className='time__showtime'
                                                     key={item.maLichChieu}
                                                   >
