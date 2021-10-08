@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { connect } from "react-redux";
 import userApi from "../../../../apis/userApi";
-import history from "../../../../utils/history";
+// import history from "../../../../utils/history";
 
 const addUserSchema = yup.object().shape({
   taiKhoan: yup.string().required("Vui lòng nhập tài khoản"),
