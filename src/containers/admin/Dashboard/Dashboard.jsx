@@ -1,4 +1,4 @@
-import { Button, message, Space, Table } from 'antd';
+import { Button, Input, message, Space, Table } from 'antd';
 import './Dashboard.scss';
 
 import React, { Component } from 'react';
@@ -14,6 +14,14 @@ class Dashboard extends Component {
     visible: false,
     selectedMovie: { maPhim: '1327' },
     loading: true,
+    visibleMovies: null,
+  };
+  onChange = (e) => {
+    const searchValue = e.target.value;
+    const visibleMovies = this.state.movies.filter((movie) => {
+      return movie.tenPhim.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    this.setState({ visibleMovies });
   };
   onModalClick = async (selectedMovie) => {
     this.setState({ visible: true, selectedMovie });
@@ -115,13 +123,15 @@ class Dashboard extends Component {
           onCancel={() => this.setState({ visible: false })}
           movie={this.state.selectedMovie}
         />
-        <Link to={`/admin/movie-detail/${-1}`}>
-          <Button className='mb-3'>Thêm phim</Button>
-        </Link>
-        <input type='text' /> <button className='ml-auto'>Tìm</button>
+        <div style={{ display: 'flex', height: '32px', marginBottom: '10px' }}>
+          <Link to={`/admin/movie-detail/${-1}`}>
+            <Button className='mb-3'>Thêm phim</Button>
+          </Link>
+          <Input placeholder='Nhập tên để tìm kiếm' onChange={this.onChange} />
+        </div>
         <Table
           columns={columns}
-          dataSource={this.state.movies}
+          dataSource={this.state.visibleMovies}
           loading={this.state.loading}
         />
       </div>
@@ -130,7 +140,7 @@ class Dashboard extends Component {
   async componentDidMount() {
     try {
       const { data } = await movieApi.fetchAllMovieApi();
-      this.setState({ movies: data, loading: false });
+      this.setState({ movies: data, loading: false, visibleMovies: data });
     } catch (err) {
       console.log(err);
     }
