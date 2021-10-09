@@ -55,7 +55,7 @@ export const adminRoutes = [
     isPrivate: true,
   },
   {
-    path: '/admin/movie-detail',
+    path: '/admin/movie-detail/:movieId',
     component: AddMovie,
     exact: true,
     isPrivate: true,
