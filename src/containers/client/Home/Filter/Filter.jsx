@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FilterDropdown from './FilterDropdown/FilterDropdown';
 import './Filter.scss';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import movieApi from '../../../../apis/movieApi';
 import theaterApi from '../../../../apis/theaterApi';
 import _ from 'lodash';
@@ -147,7 +147,22 @@ export default class Filter extends Component {
             border: 'none',
           }}
           onClick={() => {
-            history.push(`/booking/${this.state.selectedShowtime.maLichChieu}`);
+            if (!this.state.selectedShowtime.maLichChieu) {
+              const key = 'updatable';
+              this.setState({ isSuccess: false }, () =>
+                setTimeout(() => {
+                  message.error({
+                    content: 'Vui lòng chọn lịch chiếu',
+                    key,
+                    duration: 2,
+                  });
+                }, 2000)
+              );
+            } else {
+              history.push(
+                `/booking/${this.state.selectedShowtime.maLichChieu}`
+              );
+            }
           }}
         >
           MUA VÉ NGAY
