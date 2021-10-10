@@ -54,7 +54,7 @@ class Header extends Component {
         <div className="header__private">
           {this.props.currentUser ? null : (
             <div className="header__item">
-              <Link to="/signup">
+              <Link to="/register">
                 <Avatar icon={<UserAddOutlined />} />
                 <span className="header__text">Đăng ký</span>
               </Link>

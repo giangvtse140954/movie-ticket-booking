@@ -2,7 +2,9 @@ import { GROUP_ID } from "../settings/apiConfig";
 import callApi from "../utils/callApi";
 const userApi = {
   loginApi: (user) => callApi("QuanLyNguoiDung/DangNhap", "POST", user),
-
+  signupApi: (user) => {
+    return callApi("QuanLyNguoiDung/DangKy", "POST", user);
+  },
   //List user
   fetchAllUserAdmin: () => {
     return callApi(`QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=${GROUP_ID}`);
