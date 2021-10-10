@@ -37,10 +37,8 @@ class UserManagement extends Component {
   };
 
   onSearch = async (value) => {
-    // console.log(value);
     try {
       const { data } = await userApi.searchUser(value);
-      console.log(data);
       this.setState({ listUsers: data });
     } catch (err) {
       console.log(err);

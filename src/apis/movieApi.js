@@ -31,6 +31,9 @@ const movieApi = {
   fetchMovieById(movieId) {
     return callApi(`QuanLyPhim/LayThongTinPhim?MaPhim=${movieId}`);
   },
+  updateMovieApi(data, token) {
+    return callApi(`QuanLyPhim/CapNhatPhimUpload`, 'POST', data, token);
+  },
 };
 
 export default movieApi;
