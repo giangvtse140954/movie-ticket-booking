@@ -9,6 +9,7 @@ import UpdateUser from "../containers/admin/UserManagement/UpdateUser/UpdateUser
 import LichSuDatVe from "../containers/client/BookingHistory/LichSuDatVe";
 import Booking from "../containers/client/Booking/Booking";
 import UpdateProfile from "../containers/client/UpadateProfile/UpdateProfile";
+import Signup from "../containers/shared/Auth/Signup/Signup";
 
 export const clientRoutes = [
   {
